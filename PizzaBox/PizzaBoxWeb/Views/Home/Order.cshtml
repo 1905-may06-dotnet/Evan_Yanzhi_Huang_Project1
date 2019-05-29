@@ -1,0 +1,20 @@
+﻿@page
+@model PizzaBoxWeb.Views.Home.OrderModel
+@{
+}
+    <form>
+        <h1>Sign In</h1>
+        <div text-align:left>
+            <p>
+                <label>User Name</label>
+                <input type="text" name="username" value="" required />
+            </p>
+            <p>
+                <label>Password</label>
+                <input type="password" name="password" value="" required />
+            </p>
+            <p><a asp-controller="Home" asp-action="UserMenu" class=" btn-primary btn-lg">Log In</a></p>
+            @*<input type="submit" class=" btn-primary btn-lg" value="Log In">*@
+
+
+</form>
