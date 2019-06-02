@@ -12,10 +12,22 @@ namespace PizzaBoxDomain
         public const int maxNumOfPizza = 100;
         public const decimal baseCost = 4.00M, maxTotal=1000.00M;
         public string DMTimeDate = "";
+        public string DMUserName = "";
         public List<DMItem> pizzaOrderList = new List<DMItem>();
         public string[] sizeType = new string[4] {"Small","Medium","Large","Extra Large"};
         public string[] toppingType = new string[8] { "Pepperoni", "Mushrooms", "Onions", "Sausage", "Bacon", "Extra cheese", "Black olives", "Green peppers" };
         public string[] crustType = new string[3] {"Thin","Thick","Flatbread" };
+        public DMPizzaOrder(string td, double t, int uid, int lid)
+        {
+            DMTimeDate = td;
+            total = (decimal)t;
+            DMUserID = uid;
+            DMLocationID = lid;
+        }
+        public DMPizzaOrder()
+        {
+        }
+
         public void createOrder()
         {
             int optionSelected = 0;

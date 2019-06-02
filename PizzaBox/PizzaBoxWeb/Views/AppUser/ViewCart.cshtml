@@ -1,0 +1,43 @@
+﻿@model PizzaBoxWeb.Models.Item
+@{
+    ViewData["Title"] = "ViewCart";
+}
+
+<h1>View Cart</h1>
+<table class="table">
+    <tbody>
+        <tr>
+            <td><strong>Size:</strong></td>
+            <td>@ViewBag.size</td>
+        </tr>
+        <tr>
+            <td><strong>Crust:</strong></td>
+            <td>@ViewBag.crust</td>
+        </tr>
+        <tr>
+            <td><strong>Toppings:</strong></td>
+            <td>@ViewBag.toppings</td>
+        </tr>
+        <tr>
+            <td><strong>Number of Pizzas:</strong></td>
+            <td>@ViewBag.num</td>
+        </tr>
+        <tr>
+            <td><strong>Total:</strong></td>
+            <td>@ViewBag.price</td>
+        </tr>
+    </tbody>
+</table>
+<div style="padding:30px 900px 0px 0px;">
+    <p><a asp-controller="AppUser" asp-action="PlaceOrder" class=" btn-primary btn-lg btn-block">Confirm Your Order</a></p>
+</div>
+<div>
+    <a asp-action="UserMenu">Cancel and Go Back to Main Menu</a>
+</div>
+<div>
+    <a asp-action="Login">Log Out</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,53 @@
+﻿@model PizzaBoxWeb.Models.Item
+
+@{
+    ViewData["Title"] = "OrderPreset";
+}
+
+<h1>Pizza Menu</h1>
+
+<hr />
+<img alt="Pizza Menu" src="~/Images/pizzamenu.jpg" />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="OrderPreset">
+            <p>Select a Pizza's PID From Menu</p>
+            <div class="form-group">
+                <select asp-for="Crust">
+                    <option value="Thin">PID#1</option>
+                    <option value="Thin">PID#2</option>
+                    <option value="Thin">PID#3</option>
+                    <option value="Thin">PID#4</option>
+                </select>
+            </div>
+            <p>Select Pizza Size:</p>
+            <div class="form-group">
+                <select asp-for="Size">
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                    <option value="Extra Large">Extra Large</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfPizza" class="control-label"></label>
+                <input min="1" max="100" asp-for="NumberOfPizza" class="form-control" />
+                <span asp-validation-for="NumberOfPizza" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Add to Cart" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="UserMenu">Back to Main Menu</a>
+</div>
+<div>
+    <a asp-action="Login">Log Out</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

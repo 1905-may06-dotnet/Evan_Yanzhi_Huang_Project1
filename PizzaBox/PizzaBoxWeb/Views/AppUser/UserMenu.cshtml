@@ -1,0 +1,23 @@
+﻿@model PizzaBoxWeb.Models.UserMenuModels
+
+@{
+    ViewData["Title"] = "UserMenu";
+}
+
+<h1 class="text-center">@ViewBag.Message</h1>
+
+<div class="text-center" style="color:white;padding:30px 300px 20px 300px;">
+
+    @if (!Model.RestrictionOnOrder)
+    {
+    <p><a asp-controller="AppUser" asp-action="SelectLocationAndPizzaType" class=" btn-primary btn-lg btn-block">Create an Order</a></p>
+    }
+    else
+    { <p><a class=" btn-primary btn-lg btn-block">Next Order Available in (HH:MM) @ViewBag.Time</a></p>}
+    <p><a asp-controller="AppUser" asp-action="UserViewOrders" class=" btn-primary btn-lg btn-block">Order History</a></p>
+    <p><a asp-controller="AppUser" asp-action="Login" class=" btn-primary btn-lg btn-block">Sign Out</a></p>
+
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,42 @@
+﻿@model PizzaBoxWeb.Models.AdminSelection
+
+@{
+    ViewData["Title"] = "AdminMenu";
+}
+
+<h1>AdminMenu</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AdminMenu">
+            <p>Select a Location:</p>
+            <div class="form-group">
+                <select asp-for="SelectedLocationID">
+                    <option value=1>Location1 Arlington, TX</option>
+                    <option value=2>Locaiton2 Dallas, TX</option>
+                    <option value=3>Locaiton3 Memphis, TN</option>
+                </select>
+            </div>
+            <p>Select to View</p>
+            <div class="form-group">
+                <select asp-for="SelectedOption">
+                    <option value=1>Sales/Orders</option>
+                    <option value=2>Customers</option>
+                    <option value=3>Inventory</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Continue" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Login">Log Out</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

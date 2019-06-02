@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using PizzaBoxDomain;
+using PizzaBoxData;
+using PizzaBoxData.data;
 
 namespace PizzaBoxWeb
 {
@@ -30,9 +34,9 @@ namespace PizzaBoxWeb
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<Icrud, Crud>();
+            services.AddDbContext<PizzaBoxData.data.PizzaBoxContext>(optionsAction => optionsAction.UseSqlServer(Configuration.GetConnectionString("DBcontext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +61,7 @@ namespace PizzaBoxWeb
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=AppUser}/{action=Login}/{id?}");
             });
         }
     }

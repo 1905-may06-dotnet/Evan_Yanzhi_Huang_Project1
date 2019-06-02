@@ -17,6 +17,7 @@ namespace PizzaBoxData
         };
         public static data.AppUser Map(PizzaBoxDomain.DMAppUser user) => new data.AppUser
         {
+            UserId = user.DMUserId,
             UserName = user.DMUserName,
             UserPassword = user.DMUserPassword,
             FullName = user.DMFullName,

@@ -1,0 +1,54 @@
+﻿@model PizzaBoxWeb.Models.AdminSelection
+
+@{
+    ViewData["Title"] = "SelectLocationAndPizzaType";
+}
+
+<h1>Select a Location And an Order Type</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SelectLocationAndPizzaType">    
+            @if (!Model.RestrictionOnLocation)
+            {
+            <p>Select a Location:</p>
+            <div class="form-group">
+                <select asp-for="SelectedLocationID">
+                    <option value=1>Location1 Arlington, TX</option>
+                    <option value=2>Locaiton2 Dallas, TX</option>
+                    <option value=3>Locaiton3 Memphis, TN</option>
+                </select>
+            </div>
+            }
+            else
+            {
+        <div>
+            <p>You can only order from 1 location/day.</p>
+            <p>You can place your order in other locations in (HH:MM): @ViewBag.Time</p>
+            <p>Location <strong>#@ViewBag.LocaiontInfo</strong> where you placed your last order is automatically selected.</p>
+        </div>
+            }
+            <p>Select an Order Type</p>
+            <div class="form-group">
+                <select asp-for="SelectedOption">
+                    <option value=1>Preset Pizza</option>
+                    <option value=2>Customized Pizza</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Continue" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="UserMenu">Back to Main Menu</a>
+</div>
+<div>
+    <a asp-action="Login">Log Out</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
