@@ -20,6 +20,7 @@ namespace PizzaBoxWeb.Models
         public int NumberOfToppings { get; set; }
         public int NumberOfPizza { get; set; }
         public int OrderId { get; set; }
+        public int PizzaType { get; set; }
         public string[] sizeType = new string[4] { "Small", "Medium", "Large", "Extra Large" };
         public const decimal baseCost = 4.00M;
         public Item()
@@ -59,7 +60,11 @@ namespace PizzaBoxWeb.Models
         {
             NumberOfToppings = GetNumberOfTopping();
             int sizeIndex = Array.IndexOf(sizeType, Size);
-            return (baseCost + (sizeIndex + 1) * 2 + (NumberOfToppings - 2) * 1)* NumberOfPizza;
+            return (baseCost + (sizeIndex + 1) * 2 + (NumberOfToppings - 2) * 1);
+        }
+        public int MaxNumPizza(decimal cost)
+        {
+            return (int)(1000 / cost);
         }
     }
 }

@@ -7,17 +7,19 @@
 <h1>Pizza Menu</h1>
 
 <hr />
+<p style="color:red">@ViewBag.Message</p>
+<p style="color:red">@ViewBag.Message2</p>
 <img alt="Pizza Menu" src="~/Images/pizzamenu.jpg" />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="OrderPreset">
             <p>Select a Pizza's PID From Menu</p>
             <div class="form-group">
-                <select asp-for="Crust">
-                    <option value="Thin">PID#1</option>
-                    <option value="Thin">PID#2</option>
-                    <option value="Thin">PID#3</option>
-                    <option value="Thin">PID#4</option>
+                <select asp-for="PizzaType">
+                    <option value="1">PID#1</option>
+                    <option value="2">PID#2</option>
+                    <option value="3">PID#3</option>
+                    <option value="4">PID#4</option>
                 </select>
             </div>
             <p>Select Pizza Size:</p>

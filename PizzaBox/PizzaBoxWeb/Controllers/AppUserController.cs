@@ -123,7 +123,7 @@ namespace PizzaBoxWeb.Controllers
                 {
                     ViewBag.Time = compareTime.Subtract(now).ToString(@"hh\:mm");
                     ViewBag.LocaiontInfo = db.GetUserLastOrderLocation(id).DMLocationId + " " + db.GetUserLastOrderLocation(id).DMCity + ", " + db.GetUserLastOrderLocation(id).DMState;
-                    TempData["LID"] = db.GetUserLastOrderLocation(id).DMLocationId;
+                    ViewBag.location=TempData["LID"] = db.GetUserLastOrderLocation(id).DMLocationId;
                 }
             }
             else
@@ -150,6 +150,7 @@ namespace PizzaBoxWeb.Controllers
                     int lid = Convert.ToInt32(TempData["LID"]);
                     TempData["LID"] = lid;
                 }
+                else { TempData["LID"] = s.SelectedLocationID; }
             }
             else
             { TempData["LID"] = s.SelectedLocationID; }
@@ -177,29 +178,96 @@ namespace PizzaBoxWeb.Controllers
             TempData["ID"] = id;
             int lid = Convert.ToInt32(TempData["LID"]);
             TempData["LID"] = lid;
-            Models.Item i = new Models.Item(item.Size, item.Crust, item.GetToppingList(),item.calculateItemPrice(), item.NumberOfPizza);
-            return RedirectToAction("ViewCart",i);
+            if ((item.calculateItemPrice()*item.NumberOfPizza) <= 1000)
+            {
+                Models.Item i = new Models.Item(item.Size, item.Crust, item.GetToppingList(), item.calculateItemPrice(), item.NumberOfPizza);
+                return RedirectToAction("ViewCart", i);
+            }
+            else
+            {
+                ViewBag.Message = "Order total cannot be more than $1000";
+                ViewBag.Message2 = $"Maximum number of this customized pizza you can order is {item.MaxNumPizza(item.calculateItemPrice())}";
+                return View();
+            }
         }
         public ActionResult OrderPreset()
-        {
-            return View();
-        }
-
-        public ActionResult ViewCart(Models.Item item)
         {
             int id = Convert.ToInt32(TempData["ID"]);
             TempData["ID"] = id;
             int lid = Convert.ToInt32(TempData["LID"]);
             TempData["LID"] = lid;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OrderPreset(Models.Item item)
+        {
+            int id = Convert.ToInt32(TempData["ID"]);
+            TempData["ID"] = id;
+            int lid = Convert.ToInt32(TempData["LID"]);
+            TempData["LID"] = lid;
+            switch (item.PizzaType)
+            {
+                case 1:
+                    item.Crust="thick";
+                    item.Topping1 = "Green peppers";
+                    item.Topping2 = "Onions";
+                    item.Topping3 = "Bacon";
+                    break;
+                case 2:
+                    item.Crust = "thick";
+                    item.Topping1 = "Pepperoni";
+                    item.Topping2 = "Pepperoni";
+                    item.Topping3 = "Pepperoni";
+                    break;
+                case 3:
+                    item.Crust = "thick";
+                    item.Topping1 = "Green peppers";
+                    item.Topping2 = "Onions";
+                    item.Topping3 = "Bacon";
+                    break;
+                case 4:
+                    item.Crust = "thick";
+                    item.Topping1 = "Green peppers";
+                    item.Topping2 = "Onions";
+                    item.Topping3 = "Bacon";
+                    break;
+                default:
+                    item.Crust = "thick";
+                    item.Topping1 = "Green peppers";
+                    item.Topping2 = "Onions";
+                    item.Topping3 = "Bacon";
+                    break;
+            }
+            if ((item.calculateItemPrice() * item.NumberOfPizza) <= 1000)
+            {
+                Models.Item i = new Models.Item(item.Size, item.Crust, item.GetToppingList(), item.calculateItemPrice(), item.NumberOfPizza);
+                return RedirectToAction("ViewCart", i);
+            }
+            else
+            {
+                ViewBag.Message = "Order total cannot be more than $1000";
+                ViewBag.Message2 = $"Maximum number of this pizza you can order is {item.MaxNumPizza(item.calculateItemPrice())}";
+                return View();
+            }
+        }
+
+        public ActionResult ViewCart(Models.Item item)
+        {
+            int id = Convert.ToInt32(TempData["ID"]);
+        TempData["ID"] = id;
+            int lid = Convert.ToInt32(TempData["LID"]);
+        TempData["LID"] = lid;
             TempData["size"] = ViewBag.size = item.Size;
             TempData["crust"] = ViewBag.crust = item.Crust;
             TempData["toppings"] = ViewBag.toppings = item.Toppings;
-            TempData["price"] = ViewBag.price = item.itemPrice;
+            TempData["price"] = ViewBag.price = item.itemPrice* item.NumberOfPizza;
             TempData["num"] = ViewBag.num = item.NumberOfPizza;
+            ViewBag.location = $"Location #{lid}, {db.GetLocationByLocationID(lid).DMCity}, {db.GetLocationByLocationID(lid).DMState}";
             return View();
         }
 
-        public ActionResult PlaceOrder()
+    public ActionResult PlaceOrder()
         {
             PizzaBoxDomain.DMPizzaOrder po = new DMPizzaOrder(DateTime.Now.ToString("MM/dd/yyyy HH:mm"), Convert.ToDouble(TempData["price"]), Convert.ToInt32(TempData["ID"]), Convert.ToInt32(TempData["LID"]));
             db.AddOrder(po);
