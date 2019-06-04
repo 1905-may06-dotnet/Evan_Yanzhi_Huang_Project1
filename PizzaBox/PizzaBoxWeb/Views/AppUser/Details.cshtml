@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PizzaBoxWeb.Models.Item>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details of Order ID#@ViewBag.oid</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Crust)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Toppings)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfPizza)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Crust)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Toppings)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfPizza)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="AdminViewOrders">Back to Order History</a>
+</div>

@@ -15,11 +15,12 @@ namespace PizzaBoxWeb.Controllers
         {
             this.db = db;
         }
-        Models.AppUser LoggedinUser;
         Models.AppUser user;
         Models.PizzaOrder pizzaOrder;
+        Models.Item item;
         List<Models.AppUser> userList = new List<Models.AppUser>();
         List<Models.PizzaOrder> orderList = new List<Models.PizzaOrder>();
+        List<Models.Item> itemList = new List<Models.Item>();
         // GET: AppUser
         public ActionResult Index()
         {
@@ -255,9 +256,9 @@ namespace PizzaBoxWeb.Controllers
         public ActionResult ViewCart(Models.Item item)
         {
             int id = Convert.ToInt32(TempData["ID"]);
-        TempData["ID"] = id;
+            TempData["ID"] = id;
             int lid = Convert.ToInt32(TempData["LID"]);
-        TempData["LID"] = lid;
+            TempData["LID"] = lid;
             TempData["size"] = ViewBag.size = item.Size;
             TempData["crust"] = ViewBag.crust = item.Crust;
             TempData["toppings"] = ViewBag.toppings = item.Toppings;
@@ -288,6 +289,7 @@ namespace PizzaBoxWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AdminMenu(Models.AdminSelection s)
         {
+            TempData["LID"]=s.SelectedLocationID;
             if (s.SelectedOption == 1)
             { return RedirectToAction("AdminViewOrders", s); }
             if (s.SelectedOption == 2)
@@ -309,23 +311,6 @@ namespace PizzaBoxWeb.Controllers
                 userList.Add(user);
             }
             return View(userList);
-        }
-
-        public ActionResult AdminViewOrders(Models.AdminSelection s)
-        {
-            ViewBag.Message = "Orders of Location#" + s.SelectedLocationID.ToString();
-            ViewBag.TotalSale = db.GetTotalSaleByLocationID(s.SelectedLocationID);
-            foreach (var o in db.GetLocationOrderHistory(s.SelectedLocationID))
-            {
-                pizzaOrder = new Models.PizzaOrder();
-                pizzaOrder.OrderId = o.DMOrderID;
-                pizzaOrder.TimeDate = o.DMTimeDate;
-                pizzaOrder.Total = o.total;
-                pizzaOrder.UserID = o.DMUserID;
-                pizzaOrder.UserName = db.GetUserByID(o.DMUserID).DMUserName;
-                orderList.Add(pizzaOrder);
-            }
-            return View(orderList);
         }
 
         public ActionResult AdminViewInventory(Models.AdminSelection s)
@@ -357,6 +342,59 @@ namespace PizzaBoxWeb.Controllers
             }
             TempData["ID"] = id;
             return View(orderList);
+        }
+        public ActionResult UserOrderDetails(int oid)
+        {
+            int id = Convert.ToInt32(TempData["ID"]);
+            ViewBag.oid = oid;
+            foreach (var i in db.GetItemByOrderID(oid))
+            {
+                item = new Models.Item();
+                item.Crust = i.DMCrust;
+                item.Toppings = i.DMToppings;
+                item.Size = i.DMSize;
+                item.NumberOfPizza = i.DMNumberOfPizza;
+                itemList.Add(item);
+            }
+            TempData["ID"] = id;
+            return View(itemList);
+        }
+
+
+        public ActionResult AdminViewOrders()
+        {
+            int lid = Convert.ToInt32(TempData["LID"]);
+            TempData["LID"] = lid;
+            ViewBag.Message = "Orders of Location#" + lid;
+            ViewBag.TotalSale = db.GetTotalSaleByLocationID(lid);
+            foreach (var o in db.GetLocationOrderHistory(lid))
+            {
+                pizzaOrder = new Models.PizzaOrder();
+                pizzaOrder.OrderId = o.DMOrderID;
+                pizzaOrder.TimeDate = o.DMTimeDate;
+                pizzaOrder.Total = o.total;
+                pizzaOrder.UserID = o.DMUserID;
+                pizzaOrder.UserName = db.GetUserByID(o.DMUserID).DMUserName;
+                orderList.Add(pizzaOrder);
+            }
+            return View(orderList);
+        }
+
+        public ActionResult Details(int id)
+        {
+            int lid = Convert.ToInt32(TempData["LID"]);
+            TempData["LID"] = lid;
+            ViewBag.oid = id;
+            foreach (var i in db.GetItemByOrderID(id))
+            {
+                item = new Models.Item();
+                item.Crust = i.DMCrust;
+                item.Toppings = i.DMToppings;
+                item.Size = i.DMSize;
+                item.NumberOfPizza = i.DMNumberOfPizza;
+                itemList.Add(item);
+            }
+            return View(itemList);
         }
     }
 }

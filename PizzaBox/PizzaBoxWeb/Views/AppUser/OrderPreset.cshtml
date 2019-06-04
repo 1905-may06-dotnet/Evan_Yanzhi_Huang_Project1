@@ -7,8 +7,6 @@
 <h1>Pizza Menu</h1>
 
 <hr />
-<p style="color:red">@ViewBag.Message</p>
-<p style="color:red">@ViewBag.Message2</p>
 <img alt="Pizza Menu" src="~/Images/pizzamenu.jpg" />
 <div class="row">
     <div class="col-md-4">
@@ -36,7 +34,8 @@
                 <input min="1" max="100" asp-for="NumberOfPizza" class="form-control" />
                 <span asp-validation-for="NumberOfPizza" class="text-danger"></span>
             </div>
-
+            <p style="color:red">@ViewBag.Message</p>
+            <p style="color:red">@ViewBag.Message2</p>
             <div class="form-group">
                 <input type="submit" value="Add to Cart" class="btn btn-primary" />
             </div>

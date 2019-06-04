@@ -39,13 +39,10 @@
                     @Html.DisplayFor(modelItem => item.LocationId)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
-
-                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) ||
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                    @Html.ActionLink("Details", "UserOrderDetails", new { oid=item.OrderId})
                 </td>
             </tr>
-}
+                }
         </tbody>
     </table>
     <div>

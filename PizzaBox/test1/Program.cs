@@ -11,7 +11,8 @@ namespace test1
         {
             PizzaBoxData.Crud c = new PizzaBoxData.Crud();
             //    Console.WriteLine(c.GetUserNameByID(4));
-            Console.WriteLine(c.GetUserLastOrderLocation(15).DMCity);
+            foreach (var i in c.GetItemByOrderID(20))
+            { Console.WriteLine(i.DMToppings); }
         }
     }
 }
